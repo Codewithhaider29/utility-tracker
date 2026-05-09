@@ -41,6 +41,8 @@ const App = () => {
   }, []);
 
   const checkForUpdates = async () => {
+    if (UPDATE_CHECK_URL.includes('your-server.com')) return; // Don't check if it's still the placeholder
+    
     try {
       const response = await fetch(UPDATE_CHECK_URL);
       const data = await response.json();
@@ -55,8 +57,7 @@ const App = () => {
         );
       }
     } catch (_e) {
-      console.error('Failed to check for updates', _e);
-      // Quiet fail if no internet or server down
+      // Quiet fail to avoid annoying logs if server is down or URL is invalid
     }
   };
 
