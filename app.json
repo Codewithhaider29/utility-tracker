@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "Utility Tracker",
+    "slug": "utility-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -48,7 +48,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "478ecd64-912f-434f-9551-71ccdf649c14"
+        "projectId": "d7f2c28f-76c6-4a31-a7c7-9915327eccde"
       }
     }
   }
