@@ -1,14 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  Animated,
   useWindowDimensions,
   ScrollView,
-  SafeAreaView,
+  Dimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated, { FadeIn, FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import Header from '../components/Header';
 import styles, { COLORS } from '../styles/WelcomeStyles';
 
@@ -16,56 +17,49 @@ const WelcomeScreen = ({ logoImg, onGetStarted, onOpenMenu }) => {
   const { width, height } = useWindowDimensions();
   const isSmallDevice = width < 375;
   const isTablet = width >= 768;
+  const isLargeTablet = width >= 1024;
+  const isLandscape = width > height;
 
-  const logoSize = isTablet ? 200 : isSmallDevice ? 130 : 160;
-  const titleSize = isTablet ? 42 : isSmallDevice ? 28 : 34;
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(30)).current;
-  const buttonScale = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }),
-      Animated.spring(slideAnim, {
-        toValue: 0,
-        friction: 6,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  });
-
-  const handlePressIn = () => {
-    Animated.spring(buttonScale, { toValue: 0.96, useNativeDriver: true }).start();
-  };
-
-  const handlePressOut = () => {
-    Animated.spring(buttonScale, { toValue: 1, friction: 3, useNativeDriver: true }).start();
-  };
+  // Responsive sizes
+  const logoSize = isLargeTablet ? 240 : isTablet ? 200 : isLandscape ? 100 : isSmallDevice ? 130 : 160;
+  const titleSize = isLargeTablet ? 48 : isTablet ? 42 : isLandscape ? 30 : isSmallDevice ? 28 : 34;
+  const subtitleSize = isLargeTablet ? 22 : isTablet ? 20 : isLandscape ? 14 : isSmallDevice ? 14 : 16;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <Header onOpenMenu={onOpenMenu} logoImg={logoImg} />
       
       <ScrollView 
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[
+          styles.scrollContainer,
+          isTablet && { paddingHorizontal: 40 }
+        ]}
         showsVerticalScrollIndicator={false}
         bounces={true}
       >
-        <View style={[styles.welcomeWrapper, { minHeight: height * 0.85 }]}>
+        <View style={[
+          styles.welcomeWrapper, 
+          { 
+            minHeight: height * 0.85,
+            paddingHorizontal: isTablet ? 40 : 24
+          }
+        ]}>
           
           {/* Animated Background Orbs */}
           <View style={styles.orbContainer}>
-            <View style={[styles.orb, styles.orb1]} />
-            <View style={[styles.orb, styles.orb2]} />
+            <Animated.View entering={FadeIn.duration(1000)}>
+               <View style={[styles.orb, styles.orb1]} />
+            </Animated.View>
+            <Animated.View entering={FadeIn.delay(300).duration(1000)}>
+               <View style={[styles.orb, styles.orb2]} />
+            </Animated.View>
           </View>
 
           {/* Logo Section */}
-          <Animated.View style={[styles.logoSection, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+          <Animated.View 
+            entering={FadeInDown.delay(100).springify().damping(15)}
+            style={[styles.logoSection, { marginTop: isTablet ? 40 : 20 }]}
+          >
             <View style={styles.glassCircle}>
               <Image
                 source={logoImg}
@@ -76,46 +70,57 @@ const WelcomeScreen = ({ logoImg, onGetStarted, onOpenMenu }) => {
           </Animated.View>
 
           {/* Headline */}
-          <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }], width: '100%' }}>
+          <Animated.View 
+            entering={FadeInUp.delay(300).duration(800)}
+            style={{ width: '100%', maxWidth: isTablet ? 700 : '100%' }}
+          >
             <Text style={[styles.title, { fontSize: titleSize }]}>
               Master Your{' '}
               <Text style={{ color: COLORS.primary }}>Utility Bills</Text>
             </Text>
-            <Text style={styles.subtitle}>
+            <Text style={[styles.subtitle, { fontSize: subtitleSize }]}>
               The smartest way to split expenses and track monthly usage with your roommates.
             </Text>
           </Animated.View>
 
           {/* Modern Feature Cards */}
-          <View style={styles.featureGrid}>
+          <View style={[
+            styles.featureGrid,
+            isTablet && { marginTop: 50, maxWidth: 800, gap: 20 }
+          ]}>
             {[
               { emoji: '⚡', title: 'Auto-Split', desc: 'Equal shares' },
               { emoji: '📈', title: 'Analytics', desc: 'Usage trends' },
               { emoji: '🔔', title: 'Reminders', desc: 'No late fees' },
             ].map((item, index) => (
-              <View key={index} style={styles.featureCard}>
+              <Animated.View 
+                key={index}
+                entering={ZoomIn.delay(500 + (index * 100)).springify()}
+                style={styles.featureCard}
+              >
                 <Text style={styles.cardEmoji}>{item.emoji}</Text>
                 <Text style={styles.cardTitle}>{item.title}</Text>
                 <Text style={styles.cardDesc}>{item.desc}</Text>
-              </View>
+              </Animated.View>
             ))}
           </View>
 
           {/* CTA Buttons */}
-          <Animated.View style={[styles.ctaWrapper, { transform: [{ scale: buttonScale }] }]}>
+          <Animated.View 
+            entering={FadeIn.delay(800).springify()}
+            style={[styles.ctaWrapper, isTablet && { marginTop: 60 }]}
+          >
             <TouchableOpacity
               style={styles.mainButton}
               onPress={onGetStarted}
-              onPressIn={handlePressIn}
-              onPressOut={handlePressOut}
-              activeOpacity={1}
+              activeOpacity={0.8}
             >
               <Text style={styles.mainButtonText}>Get Started</Text>
               <View style={styles.buttonCircle}>
                 <View 
                   style={{ 
-                    width: 8, 
-                    height: 8, 
+                    width: moderateScale(8), 
+                    height: moderateScale(8), 
                     borderTopWidth: 2, 
                     borderRightWidth: 2, 
                     borderColor: COLORS.primary, 
@@ -130,6 +135,12 @@ const WelcomeScreen = ({ logoImg, onGetStarted, onOpenMenu }) => {
       </ScrollView>
     </SafeAreaView>
   );
+};
+
+const moderateScale = (size, factor = 0.5) => {
+  const { width } = Dimensions.get('window');
+  const scale = (width / 375) * size;
+  return size + (scale - size) * factor;
 };
 
 export default WelcomeScreen;

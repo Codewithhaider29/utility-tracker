@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
+import { scale, moderateScale, verticalScale, fontScale } from '../../utils/responsive';
 
 export const COLORS = {
   primary: '#4361ee', 
@@ -14,27 +15,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 10 : 15,
-    paddingBottom: 15,
+    paddingHorizontal: scale(20),
+    paddingTop: Platform.select({
+      ios: verticalScale(10),
+      android: verticalScale(35),
+      default: verticalScale(20),
+    }),
+    paddingBottom: verticalScale(15),
     zIndex: 100,
     backgroundColor: COLORS.background,
   },
   leftWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: moderateScale(12),
   },
   logoFrame: {
     // No background or padding needed
   },
   headerLogo: {
-    width: 35,
-    height: 35,
-    borderRadius: 10,
+    width: moderateScale(35),
+    height: moderateScale(35),
+    borderRadius: moderateScale(10),
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: fontScale(20),
     fontWeight: '800',
     color: COLORS.textDark,
     letterSpacing: -0.5,
@@ -43,25 +48,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.white,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 15,
-    gap: 8,
+    paddingVertical: moderateScale(8),
+    paddingHorizontal: moderateScale(14),
+    borderRadius: moderateScale(15),
+    gap: moderateScale(8),
     borderWidth: 1,
     borderColor: '#e2e8f0',
   },
   menuIconWrapper: {
-    gap: 4,
+    gap: moderateScale(4),
   },
   hamburgerLine: {
-    width: 18,
-    height: 2.5,
+    width: moderateScale(18),
+    height: moderateScale(2.5),
     backgroundColor: COLORS.primary,
-    borderRadius: 2,
+    borderRadius: moderateScale(2),
   },
   menuText: {
     color: COLORS.textDark,
-    fontSize: 14,
+    fontSize: fontScale(14),
     fontWeight: '700',
   },
 });

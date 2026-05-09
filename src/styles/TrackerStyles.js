@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
+import { moderateScale, verticalScale, fontScale, isTablet, isLargeDevice, isSmallDevice } from '../../utils/responsive';
 
 export const COLORS = {
   primary: '#4361ee', 
@@ -13,86 +14,266 @@ export const COLORS = {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.background },
-  mainScrollView: { flex: 1 },
+  container: { 
+    flex: 1, 
+    backgroundColor: COLORS.background 
+  },
+  mainScrollView: { 
+    flex: 1 
+  },
   
+  // Dashboard Card
   dashboardCard: {
     backgroundColor: COLORS.white,
-    margin: 16,
-    borderRadius: 24,
-    padding: 20,
+    margin: moderateScale(16),
+    borderRadius: moderateScale(24),
+    padding: moderateScale(20),
     borderWidth: 1,
     borderColor: COLORS.border,
     ...Platform.select({
-      ios: { shadowColor: COLORS.primary, shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.1, shadowRadius: 20 },
-      android: { elevation: 5 },
+      ios: { 
+        shadowColor: COLORS.primary, 
+        shadowOffset: { width: 0, height: verticalScale(10) }, 
+        shadowOpacity: 0.1, 
+        shadowRadius: moderateScale(20) 
+      },
+      android: { 
+        elevation: 5 
+      },
     }),
   },
-  dashHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
-  dashboardTitle: { fontSize: 18, fontWeight: '800', color: COLORS.textDark },
-  monthPill: { backgroundColor: '#eef2ff', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 12 },
-  monthText: { color: COLORS.primary, fontWeight: '700', fontSize: 12 },
-  statsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 20 },
-  statItem: { alignItems: 'center' },
-  statValue: { fontSize: 24, fontWeight: '900', color: COLORS.primary },
-  statLabel: { fontSize: 11, color: COLORS.textLight, textTransform: 'uppercase', marginTop: 4, letterSpacing: 1 },
-  statDivider: { width: 1, height: 30, backgroundColor: COLORS.border },
+  dashHeader: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    marginBottom: verticalScale(20) 
+  },
+  dashboardTitle: { 
+    fontSize: isLargeDevice ? fontScale(22) : fontScale(18), 
+    fontWeight: '800', 
+    color: COLORS.textDark 
+  },
+  monthPill: { 
+    backgroundColor: '#eef2ff', 
+    paddingHorizontal: moderateScale(12), 
+    paddingVertical: moderateScale(6), 
+    borderRadius: moderateScale(12) 
+  },
+  monthText: { 
+    color: COLORS.primary, 
+    fontWeight: '700', 
+    fontSize: fontScale(12) 
+  },
+  statsRow: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-around', 
+    marginBottom: verticalScale(20) 
+  },
+  statItem: { 
+    alignItems: 'center' 
+  },
+  statValue: { 
+    fontSize: isLargeDevice ? fontScale(30) : fontScale(24), 
+    fontWeight: '900', 
+    color: COLORS.primary 
+  },
+  statLabel: { 
+    fontSize: fontScale(11), 
+    color: COLORS.textLight, 
+    textTransform: 'uppercase', 
+    marginTop: verticalScale(4), 
+    letterSpacing: 1 
+  },
+  statDivider: { 
+    width: 1, 
+    height: verticalScale(30), 
+    backgroundColor: COLORS.border 
+  },
   
-  progressSection: { alignItems: 'center' },
-  progressBarBg: { width: '100%', height: 10, backgroundColor: '#f1f5f9', borderRadius: 5, overflow: 'hidden', marginBottom: 8 },
-  progressBarFill: { height: '100%', borderRadius: 5 },
-  progressText: { fontSize: 12, fontWeight: '600', color: COLORS.textLight },
+  // Progress Section
+  progressSection: { 
+    alignItems: 'center' 
+  },
+  progressBarBg: { 
+    width: '100%', 
+    height: moderateScale(10), 
+    backgroundColor: '#f1f5f9', 
+    borderRadius: moderateScale(5), 
+    overflow: 'hidden', 
+    marginBottom: verticalScale(8) 
+  },
+  progressBarFill: { 
+    height: '100%', 
+    borderRadius: moderateScale(5) 
+  },
+  progressText: { 
+    fontSize: fontScale(12), 
+    fontWeight: '600', 
+    color: COLORS.textLight 
+  },
 
+  // Glass Card
   glassCard: {
     backgroundColor: COLORS.white,
-    marginHorizontal: 16,
-    marginBottom: 16,
-    borderRadius: 24,
-    padding: 20,
+    marginHorizontal: moderateScale(16),
+    marginBottom: moderateScale(16),
+    borderRadius: moderateScale(24),
+    padding: moderateScale(20),
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  cardHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
-  cardTitle: { fontSize: 16, fontWeight: '700', color: COLORS.textDark },
-  resetText: { color: COLORS.danger, fontWeight: '600', fontSize: 13 },
-  inputGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginBottom: 20 },
-  inputBox: { flex: 1, minWidth: '45%' },
-  label: { fontSize: 12, fontWeight: '700', color: COLORS.textLight, marginBottom: 6 },
+  cardHeader: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    marginBottom: verticalScale(15) 
+  },
+  cardTitle: { 
+    fontSize: isLargeDevice ? fontScale(20) : fontScale(16), 
+    fontWeight: '700', 
+    color: COLORS.textDark 
+  },
+  resetText: { 
+    color: COLORS.danger, 
+    fontWeight: '600', 
+    fontSize: fontScale(13) 
+  },
+  inputGrid: { 
+    flexDirection: isLargeDevice ? 'row' : 'row',
+    flexWrap: 'wrap', 
+    gap: moderateScale(12), 
+    marginBottom: verticalScale(20),
+    justifyContent: 'space-between'
+  },
+  inputBox: { 
+    flexBasis: isTablet ? '45%' : isSmallDevice ? 140 : 200,
+    flexGrow: 1, 
+    minWidth: moderateScale(140),
+  },
+  label: { 
+    fontSize: fontScale(13), 
+    fontWeight: '700', 
+    color: COLORS.textLight, 
+    marginBottom: verticalScale(8) 
+  },
   textInput: {
     backgroundColor: '#f8fafc',
     borderWidth: 1,
     borderColor: COLORS.border,
-    borderRadius: 12,
-    padding: 12,
-    fontSize: 15,
+    borderRadius: moderateScale(12),
+    padding: moderateScale(12),
+    fontSize: fontScale(15),
     color: COLORS.textDark,
   },
-  divideBtn: { borderRadius: 16, overflow: 'hidden' },
-  fullBtnGradient: { padding: 16, alignItems: 'center' },
-  btnText: { color: COLORS.white, fontWeight: '700', fontSize: 16 },
-
-  table: { marginTop: 5 },
-  tableHeader: { flexDirection: 'row', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: COLORS.border },
-  hCell: { fontSize: 11, fontWeight: '800', color: COLORS.textLight, textTransform: 'uppercase' },
-  tableRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#f1f5f9' },
-  paidRow: { backgroundColor: '#f0fff4' },
-  cell: { fontSize: 14, color: COLORS.textDark },
-  statusTag: { width: 80, paddingVertical: 6, borderRadius: 10, alignItems: 'center', marginRight: 10 },
-  statusTagText: { color: COLORS.white, fontSize: 10, fontWeight: '800' },
-  delBtn: { width: 30, height: 30, justifyContent: 'center', alignItems: 'center' },
-
-  footer: { paddingHorizontal: 16, gap: 12 },
-  addMemberBtn: { 
-    borderWidth: 2, 
-    borderColor: COLORS.primary, 
-    borderStyle: 'dashed', 
-    padding: 16, 
-    borderRadius: 16, 
+  divideBtn: { 
+    borderRadius: moderateScale(16), 
+    overflow: 'hidden',
+    marginTop: verticalScale(5),
+  },
+  fullBtnGradient: { 
+    padding: moderateScale(16), 
     alignItems: 'center' 
   },
-  addMemberText: { color: COLORS.primary, fontWeight: '700' },
-  saveBtn: { backgroundColor: COLORS.primary, padding: 18, borderRadius: 16, alignItems: 'center', width: '100%' },
-  saveBtnText: { color: COLORS.white, fontWeight: '700', fontSize: 16 },
+  btnText: { 
+    color: COLORS.white, 
+    fontWeight: '700', 
+    fontSize: fontScale(16) 
+  },
+
+  // Table Styles
+  table: { 
+    marginTop: verticalScale(5) 
+  },
+  tableHeader: { 
+    flexDirection: 'row', 
+    paddingBottom: verticalScale(10), 
+    borderBottomWidth: 1, 
+    borderBottomColor: COLORS.border 
+  },
+  hCell: { 
+    fontSize: fontScale(11), 
+    fontWeight: '800', 
+    color: COLORS.textLight, 
+    textTransform: 'uppercase' 
+  },
+  tableRow: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    paddingVertical: moderateScale(12), 
+    borderBottomWidth: 1, 
+    borderBottomColor: '#f1f5f9' 
+  },
+  paidRow: { 
+    backgroundColor: '#f0fff4' 
+  },
+  cell: { 
+    fontSize: fontScale(14), 
+    color: COLORS.textDark 
+  },
+  statusTag: { 
+    width: moderateScale(80), 
+    paddingVertical: moderateScale(6), 
+    borderRadius: moderateScale(10), 
+    alignItems: 'center', 
+    marginRight: moderateScale(10) 
+  },
+  statusTagText: { 
+    color: COLORS.white, 
+    fontSize: fontScale(10), 
+    fontWeight: '800' 
+  },
+  delBtn: { 
+    width: moderateScale(30), 
+    height: moderateScale(30), 
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
+
+  // Footer Actions
+  footer: { 
+    paddingHorizontal: moderateScale(16), 
+    gap: moderateScale(12) 
+  },
+  addMemberBtn: { 
+    borderWidth: moderateScale(2), 
+    borderColor: COLORS.primary, 
+    borderStyle: 'dashed', 
+    padding: moderateScale(16), 
+    borderRadius: moderateScale(16), 
+    alignItems: 'center' 
+  },
+  addMemberText: { 
+    color: COLORS.primary, 
+    fontWeight: '700',
+    fontSize: fontScale(15),
+  },
+  rowActions: {
+    flexDirection: isLargeDevice ? 'row' : 'column',
+    gap: moderateScale(12),
+  },
+  saveBtn: { 
+    backgroundColor: COLORS.primary, 
+    padding: moderateScale(18), 
+    borderRadius: moderateScale(16), 
+    alignItems: 'center', 
+    width: '100%',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  saveBtnText: { 
+    color: COLORS.white, 
+    fontWeight: '700', 
+    fontSize: fontScale(16) 
+  },
 });
 
 export default styles;
